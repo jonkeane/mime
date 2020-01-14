@@ -152,6 +152,7 @@ parse_multipart = function(env) {
     )
     while (TRUE) {
       i = raw_match(boundary, buf$read_buffer)
+      print("reading...")
       if (length(i)) {
         value = slice_buffer(i, boundary_size)
         # strip off the extra EOL before the boundary
