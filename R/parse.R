@@ -43,6 +43,10 @@ parse_multipart = function(env) {
 
   buf = new.env(parent = emptyenv())
   buf$bufsize = 16384L  # never read more than bufsize bytes (16K)
+  # if the content is long (> ~2MB), then read in larger chunks (~2MB)
+  if (content_length > 16384 * 256) {
+    buf$bufsize <- buf$bufsize * 128L
+  }
   buf$read_buffer = input$read(boundaryEOL_size)
   buf$read_buffer_len = length(buf$read_buffer)
   buf$unread = content_length - boundary_size
